@@ -35,7 +35,7 @@
 	function tempo(){
 		let Timetxt = document.querySelector(".time");
 		let datageral = new Date();
-		let getTempo = datageral.toLocaleTimeString();
+		let getTempo = datageral.toLocaleTimeString("en-us");
 		//
 		Timetxt.innerText= getTempo;
 	};
@@ -54,7 +54,7 @@
 		});
 	};
 	moveBolas();
-	setInterval(moveBolas,15*32)
+	setInterval(moveBolas,12*32)
 
 	
 
