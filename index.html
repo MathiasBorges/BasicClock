@@ -1,62 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Relógio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Relógio digital com animação de fundo">
+    <title>Relógio Digital</title>
+    <style>
+        :root {
+            --primary-color: #005d00;
+            --ball-color: skyblue;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+            --ball-shadow: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background: radial-gradient(circle, #fff, #333);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .time {
+            font-size: 6vw;
+            color: var(--primary-color);
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            backdrop-filter: blur(5px);
+            letter-spacing: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .containerb {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            z-index: 1;
+        }
+
+        .ball {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--ball-color);
+            box-shadow: 0 0 15px var(--ball-shadow);
+            transition: transform 0.5s ease, opacity 0.5s ease, border-radius 0.5s ease;
+        }
+
+        @media (max-width: 600px) {
+            .time {
+                font-size: 10vw;
+                padding: 15px 30px;
+            }
+            .ball {
+                width: 30px;
+                height: 30px;
+            }
+            .containerb {
+                gap: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
-	<div class="container">
-		<p class="time" style="color: #005d00;"></p>
-	</div>
-	<div class="containerb">
-		<div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div>
-		<div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div>
-		<div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div>
-		<div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div>
-		<div class="ball"></div><div class="ball"></div><div class="ball"></div><div class="ball"></div>
+    <div class="container">
+        <p class="time" aria-live="polite"></p>
+    </div>
+    <div class="containerb">
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+        <div class="ball"></div>
+    </div>
 
-	</div>
-	
+    <script>
+        // Relógio
+        function updateTime() {
+            const timeElement = document.querySelector('.time');
+            const now = new Date();
+            timeElement.textContent = now.toLocaleTimeString('pt-BR', {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Animação das bolas
+        function animateBalls() {
+            const balls = document.querySelectorAll('.ball');
+            const container = document.querySelector('.containerb');
+            const maxWidth = window.innerWidth - 40; // Ajustado para o tamanho da bola
+            const maxHeight = window.innerHeight - 40;
+
+            container.style.gap = `${Math.random() * 100 + 30}px`;
+
+            balls.forEach(ball => {
+                const x = Math.random() * maxWidth;
+                const y = Math.random() * maxHeight;
+                const borderRadius = Math.random() * 25 + 25; // Entre 25% e 50%
+                const opacity = Math.random() * 0.5 + 0.5; // Entre 0.5 e 1
+
+                ball.style.transform = `translate(${x}px, ${y}px)`;
+                ball.style.borderRadius = `${borderRadius}%`;
+                ball.style.opacity = opacity;
+            });
+        }
+
+        animateBalls();
+        setInterval(animateBalls, 1500); // Animação mais fluida
+
+        // Ajustar bolas ao redimensionar a janela
+        window.addEventListener('resize', animateBalls);
+    </script>
 </body>
 </html>
-<style type="text/css">
-	*{margin: 0;font-family: monospace;box-sizing: border-box;}body{background: radial-gradient(white, black);display: flex;align-items: center;justify-content: center;width: 100vw;height: 100vh;overflow: hidden;}.container{font-size: 5vw;display: flex;gap: 20px;position: absolute;}.time{padding: 100px;border-radius: 10px;box-shadow: 0 0 25px black}
-	.ball{width:50px ;height:50px ;border-radius: 50%;background: skyblue;box-shadow: 0 0 25px white;}
-	.containerb{
-	width: auto;
-    height: auto;
-    position: absolute;
-    display: flex;gap: 100px;
-}
-</style>
-<script type="text/javascript">
-	//Relógio em si =>
-	function tempo(){
-		let Timetxt = document.querySelector(".time");
-		let datageral = new Date();
-		let getTempo = datageral.toLocaleTimeString("en-us");
-		//
-		Timetxt.innerText= getTempo;
-	};
-	tempo();
-	setInterval(tempo,1000);
-
-	//"Animação" das bolas =>
-	function moveBolas(){
-		let bolas = document.querySelectorAll(".ball");
-		let containerb = document.querySelector(".containerb");
-		containerb.style.gap=`${Math.random() *160}px`;
-		bolas.forEach(function(bola){
-			bola.style.transform = `translate(${Math.floor(Math.random() *200)}px,${Math.random() *200}px)`;
-			bola.style.borderRadius = `${Math.floor(Math.random()*35)}%`;
-			bola.style.opacity = `${Math.floor(Math.random()*100)}%`;
-		});
-	};
-	moveBolas();
-	setInterval(moveBolas,12*32)
-
-	
-
-
-</script>
